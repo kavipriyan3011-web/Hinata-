@@ -1,0 +1,40 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential git ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixin-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev openjdk-17-jdk unzip
+          pip install --upgrade buildozer cython
+
+      - name: Create buildozer.spec
+        run: |
+          buildozer init
+          sed -i 's/^requirements = .*/requirements = python3,pygame,gTTS,google-genai,requests,urllib3,chardet,idna/' buildozer.spec
+          sed -i 's/# android.permissions = .*/android.permissions = INTERNET, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE/' buildozer.spec
+
+      - name: Build APK
+        run: |
+          buildozer -v android debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: bin/*.apk
