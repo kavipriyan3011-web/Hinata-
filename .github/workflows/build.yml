@@ -28,10 +28,15 @@ jobs:
           buildozer init
           sed -i 's/^requirements = .*/requirements = python3,pygame,gTTS,google-genai,requests,urllib3,chardet,idna/' buildozer.spec
           sed -i 's/# android.permissions = .*/android.permissions = INTERNET, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE/' buildozer.spec
+          sed -i 's/# android.accept_sdk_license = .*/android.accept_sdk_license = True/' buildozer.spec
+
+      - name: Accept Android Licenses
+        run: |
+          yes | buildozer android update || true
 
       - name: Build APK
         run: |
-          buildozer -v android debug
+          yes | buildozer -v android debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
