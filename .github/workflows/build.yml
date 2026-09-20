@@ -20,8 +20,8 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential git ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev openjdk-17-jdk unzip
-          pip install --upgrade buildozer cython
+          sudo apt install -y build-essential git ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev openjdk-17-jdk unzip autoconf libtool pkg-config
+          pip install --upgrade buildozer "cython<3.0.0"
 
       - name: Create buildozer.spec
         run: |
@@ -29,8 +29,9 @@ jobs:
           sed -i 's/^requirements = .*/requirements = python3,pygame,gTTS,google-genai,requests,urllib3,chardet,idna/' buildozer.spec
           sed -i 's/# android.permissions = .*/android.permissions = INTERNET, RECORD_AUDIO, WRITE_EXTERNAL_STORAGE/' buildozer.spec
           sed -i 's/# android.accept_sdk_license = .*/android.accept_sdk_license = True/' buildozer.spec
+          sed -i 's/# android.ndk = .*/android.ndk = 25b/' buildozer.spec
 
-      - name: Build APK with Auto License Acceptance
+      - name: Build APK
         run: |
           mkdir -p ~/.android
           touch ~/.android/repositories.cfg
