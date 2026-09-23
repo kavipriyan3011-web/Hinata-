@@ -6,7 +6,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,wav,mp3,ogg
 version = 0.1
 
-requirements = python3,pygame,gTTS,google-genai,requests,urllib3,chardet,idna
+requirements = python3,kivy,gTTS,requests,urllib3,chardet,idna
 
 orientation = portrait
 fullscreen = 0
