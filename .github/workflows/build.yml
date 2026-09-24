@@ -40,3 +40,8 @@ jobs:
         with:
           name: app-release
           path: bin/*.apk
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: bin/*.apk
