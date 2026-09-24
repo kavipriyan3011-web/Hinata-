@@ -5,8 +5,9 @@ package.domain = org.hinata
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,wav,mp3,ogg
 version = 0.1
-requirements = python3,kivy,gTTS,requests,urllib3,chardet,idna
 
+# Clean requirements list
+requirements = python3,kivy,gTTS,requests,urllib3,chardet,idna,certifi
 
 orientation = portrait
 fullscreen = 0
